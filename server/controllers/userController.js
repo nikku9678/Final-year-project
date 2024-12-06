@@ -2,6 +2,7 @@ import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import { User } from "../models/userModel.js";
 import ErrorHandler from "../middlewares/error.js";
 import { generateToken } from "../utils/generateToken.js";
+import {Profile} from '../models/profile.js'; // Import the Profile model
 
 // Login
 export const login = catchAsyncErrors(async (req, res, next) => {
@@ -71,6 +72,33 @@ export const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// Get the user's profile
+export const getUserProfileInfo = async (req, res) => {
+  try {
+      const { userId } = req.user; // Extract the logged-in user's ID from the authentication middleware
+
+      // Find the profile associated with the logged-in user
+      const profile = await Profile.findOne({ userId });
+
+      if (!profile) {
+          return res.status(404).json({ success: false, message: 'Profile not found' });
+      }
+
+      res.status(200).json({
+          success: true,
+          message: 'Profile retrieved successfully',
+          profile,
+      });
+  } catch (error) {
+      console.error('Error retrieving profile:', error);
+      res.status(500).json({
+          success: false,
+          message: 'Failed to retrieve profile',
+          error: error.message,
+      });
+  }
+};
+
 // Logout
 export const logout = catchAsyncErrors(async (req, res, next) => {
   res
@@ -104,3 +132,44 @@ export const getUserById = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Invalid ID or User not found!", 400));
   }
 });
+
+
+// Update a profile (only by the logged-in user)
+export const updateProfile = async (req, res) => {
+    try {
+        const { userId } = req.user; // Extract the logged-in user's ID from the authentication middleware
+        const updates = req.body; // Extract the fields to update from the request body
+
+        // Validate input
+        if (!userId) {
+            return res.status(403).json({ success: false, message: 'Unauthorized: User ID missing' });
+        }
+
+        // Find the profile associated with the logged-in user
+        const profile = await Profile.findOne({ _id: req.params.profileId, userId });
+
+        if (!profile) {
+            return res.status(404).json({ success: false, message: 'Profile not found or not owned by user' });
+        }
+
+        // Apply updates
+        Object.assign(profile, updates);
+
+        // Save updated profile
+        const updatedProfile = await profile.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Profile updated successfully',
+            profile: updatedProfile,
+        });
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to update profile',
+            error: error.message,
+        });
+    }
+};
+
