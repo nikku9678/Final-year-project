@@ -16,12 +16,11 @@ dotenv.config();
 connectDb();
 
 app.use(
-    cors({
-      origin: [process.env.FRONTEND_URL],
-      method: ["GET", "POST", "DELETE", "PUT"],
-      credentials: true,
-    })
-  );
+  cors({
+    origin: ["http://localhost:5173"], // Frontend origin
+    credentials: true,
+  })
+);
 
   // app.use(cors())
   app.use(cookieParser());
@@ -40,7 +39,7 @@ app.get('/protected', isAuthenticate, (req, res) => {
 
 
 app.use(errorMiddleware);
-const PORT = 6000 || process.env.PORT
+const PORT = 4000 || process.env.PORT
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`);
