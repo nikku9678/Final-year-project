@@ -1,6 +1,7 @@
 // Register.jsx
 import React, { useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../../config/config";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +19,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:4000/api/v1/u/register", formData);
+      const { data } = await axios.post(`${BASE_URL}/u/register`, formData);
       setMessage(data.message);
     } catch (error) {
       setMessage(error.response?.data?.message || "Something went wrong");

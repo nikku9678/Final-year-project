@@ -106,7 +106,7 @@ export default function Navbar() {
               </Menu>
             ) : (
               <Link
-                to="/"
+                to="/login"
                 className="rounded-md px-3 py-2 text-md font-medium text-black-800 hover:bg-yellow-600 hover:text-black"
               >
                 Sign in

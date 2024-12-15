@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../redux/authSlice.js"; // Redux action
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../config/config.js";
 
 const Login = () => {
   const [formData, setFormData] = useState({ login: "", password: "" });
@@ -17,7 +18,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:4000/api/v1/u/login", formData, {
+      const { data } = await axios.post(`${BASE_URL}/u/login`, formData, {
         withCredentials: true,
       });
 
