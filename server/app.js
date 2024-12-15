@@ -17,7 +17,7 @@ connectDb();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // Frontend origin
+    origin: [process.env.FRONTEND_URL], // Frontend origin
     credentials: true,
   })
 );
