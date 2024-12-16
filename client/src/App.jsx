@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './components/navbar/Navbar';
+import  Header from './components/navbar/Navbar.jsx';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -11,7 +11,7 @@ import Home from './pages/home/Home';
 const App = () => {
   return (
     <Router>
-      <Navbar />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} /> {/* Redirects to home if no specific path is provided */}
         <Route path="/login" element={<PublicRoute element={<Login />} />} />
