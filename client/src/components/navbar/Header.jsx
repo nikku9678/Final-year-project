@@ -16,18 +16,18 @@ import {
   ChevronDownIcon,
   Bars3Icon,
   XMarkIcon,
-  ChevronUpIcon,
+
   UserCircleIcon,
   Cog6ToothIcon,
   InboxArrowDownIcon,
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
-import { MenuButton, MenuItems } from "@headlessui/react";
-import { Avatar } from "flowbite-react";
-import { useDispatch, useSelector } from "react-redux";
-import { logout} from "../../redux/authSlice.js"; // Adjust import according to your file structure
-import { Navigate, useNavigate } from "react-router-dom";
+// import { MenuButton, MenuItems } from "@headlessui/react";
+// import { Avatar } from "flowbite-react";
+import {useSelector } from "react-redux";
+// import { logout} from "../../redux/authSlice.js"; // Adjust import according to your file structure
+import { useNavigate } from "react-router-dom";
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -140,7 +140,6 @@ const profileMenuItems = [
 ];
 
 function ProfileMenu() {
-  const dispatch = useDispatch(); // Use dispatch from Redux
   const [isMenuOpen,setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -193,7 +192,6 @@ function ProfileMenu() {
 }
 
 export default function Header() {
-  const dispatch = useDispatch(); // Use dispatch from Redux
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn); // Access state from Redux
   const [openNav, setOpenNav] = React.useState(false);
   const navigate = useNavigate();
