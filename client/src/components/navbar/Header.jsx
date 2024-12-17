@@ -208,14 +208,14 @@ export default function Header() {
 
   return (
     <Navbar className="px-2 lg:px-8 max-w-[100%] py-3 rounded-none shadow-none border-b border-gray-500">
-      <div className="mx-4 px-2 flex items-center justify-between text-black">
+      <div className="mx-4 px-2 flex items-center justify-between text-black ">
         {/* Logo */}
         <div>
           <Typography
             as="a"
             href="#"
-            variant="h5"
-            className="mr-4 cursor-pointer py-1.5"
+           
+            className="mr-4 cursor-pointer py-1.5 text-xl font-bold"
           >
             Placement
           </Typography>
@@ -232,9 +232,10 @@ export default function Header() {
               <ProfileMenu />
             ) : (
               <Button
-                variant="outlined"
-                size="md"
+                variant=""
+                size="sm"
                 onClick={handleLogin}
+                className="bg-black rounded-3xl text-sm"
               >
                 Log In
               </Button>
