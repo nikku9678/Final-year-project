@@ -16,7 +16,6 @@ import {
   ChevronDownIcon,
   Bars3Icon,
   XMarkIcon,
-
   UserCircleIcon,
   Cog6ToothIcon,
   InboxArrowDownIcon,
@@ -26,7 +25,7 @@ import {
 
 // import { MenuButton, MenuItems } from "@headlessui/react";
 // import { Avatar } from "flowbite-react";
-import {useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { logout} from "../../redux/authSlice.js"; // Adjust import according to your file structure
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/authSlice";
@@ -53,11 +52,15 @@ function NavListMenu() {
               Study Material
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`hidden h-3 w-3 transition-transform lg:block ${isMenuOpen ? "rotate-180" : ""}`}
+                className={`hidden h-3 w-3 transition-transform lg:block ${
+                  isMenuOpen ? "rotate-180" : ""
+                }`}
               />
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`block h-3 w-3 transition-transform lg:hidden ${isMobileMenuOpen ? "rotate-180" : ""}`}
+                className={`block h-3 w-3 transition-transform lg:hidden ${
+                  isMobileMenuOpen ? "rotate-180" : ""
+                }`}
               />
             </ListItem>
           </Typography>
@@ -82,42 +85,89 @@ function NavListMenu() {
 }
 
 function NavList() {
+  const { isLoggedIn } = useSelector((state) => state.auth);
   return (
     <List className="mb-6 mt-4 p-0 lg:mb-0 lg:mt-0 lg:flex-row lg:p-1">
-      {/* Home */}
-      <Typography as="div" variant="large" color="blue-gray" className="font-medium">
-        <Link to="/">
-          <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
-        </Link>
-      </Typography>
+      
 
       {/* About */}
-      <Typography as="div" variant="large" color="blue-gray" className="font-medium">
+      {isLoggedIn ? (
+        <>
+          {" "}
+          <Typography
+            as="div"
+            variant="large"
+            color="blue-gray"
+            className="font-medium"
+          >
+            <Link to="/study-material">
+              <ListItem className="flex items-center gap-2 py-2 pr-4">
+                Study Material
+              </ListItem>
+            </Link>
+          </Typography>
+        </>
+      ) : (
+        <>{/* Home */}
+        <Typography
+          as="div"
+          variant="large"
+          color="blue-gray"
+          className="font-medium"
+        >
+          <Link to="/">
+            <ListItem className="flex items-center gap-2 py-2 pr-4">
+              Home
+            </ListItem>
+          </Link>
+        </Typography>
+          <Typography
+            as="div"
+            variant="large"
+            color="blue-gray"
+            className="font-medium"
+          >
+            <Link to="/about">
+              <ListItem className="flex items-center gap-2 py-2 pr-4">
+                About
+              </ListItem>
+            </Link>
+          </Typography>
+        </>
+      )}
+
+      <Typography
+        as="div"
+        variant="large"
+        color="blue-gray"
+        className="font-medium"
+      >
         <Link to="/about">
-          <ListItem className="flex items-center gap-2 py-2 pr-4">About</ListItem>
+          <ListItem className="flex items-center gap-2 py-2 pr-4">
+            Contest
+          </ListItem>
         </Link>
       </Typography>
-      <Typography as="div" variant="large" color="blue-gray" className="font-medium">
-        <Link to="/about">
-          <ListItem className="flex items-center gap-2 py-2 pr-4">Contest</ListItem>
-        </Link>
-      </Typography>
-      
 
       {/* NavListMenu */}
       <NavListMenu />
 
       {/* Docs */}
-      <Typography as="div" variant="large" color="blue-gray" className="font-medium">
+      <Typography
+        as="div"
+        variant="large"
+        color="blue-gray"
+        className="font-medium"
+      >
         <Link to="/about">
-          <ListItem className="flex items-center gap-2 py-2 pr-4">Interview</ListItem>
+          <ListItem className="flex items-center gap-2 py-2 pr-4">
+            Interview
+          </ListItem>
         </Link>
       </Typography>
     </List>
   );
 }
-
-
 
 const profileMenuItems = [
   {
@@ -143,8 +193,8 @@ const profileMenuItems = [
 ];
 
 function ProfileMenu() {
-  const dispatch=useDispatch()
-  const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -170,7 +220,9 @@ function ProfileMenu() {
           />
           <ChevronDownIcon
             strokeWidth={2.5}
-            className={`h-3 w-3 transition-transform ${isMenuOpen ? "rotate-180" : ""}`}
+            className={`h-3 w-3 transition-transform ${
+              isMenuOpen ? "rotate-180" : ""
+            }`}
           />
         </Button>
       </MenuHandler>
@@ -201,7 +253,11 @@ function ProfileMenu() {
             className: "h-4 w-4 text-red-500",
             strokeWidth: 2,
           })}
-          <Typography as="span" variant="small" className="font-normal text-red-500">
+          <Typography
+            as="span"
+            variant="small"
+            className="font-normal text-red-500"
+          >
             Sign Out
           </Typography>
         </MenuItem>
@@ -209,7 +265,6 @@ function ProfileMenu() {
     </Menu>
   );
 }
-
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn); // Access state from Redux
@@ -234,7 +289,6 @@ export default function Header() {
           <Typography
             as="a"
             href="/"
-           
             className="mr-4 cursor-pointer py-1.5 text-xl font-bold"
           >
             Placement
@@ -252,7 +306,7 @@ export default function Header() {
               <ProfileMenu />
             ) : (
               <Button
-                variant=""
+                variant="gradient"
                 size="sm"
                 onClick={handleLogin}
                 className="bg-black rounded-3xl text-sm"
@@ -263,7 +317,7 @@ export default function Header() {
           </div>
 
           {/* Mobile Navigation Icon */}
-          <IconButton 
+          <IconButton
             variant="text"
             className="lg:hidden"
             onClick={() => setOpenNav(!openNav)}
