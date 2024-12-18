@@ -7,9 +7,12 @@ import PublicRoute from './context/PublicRoute';
 import ProtectedRoute from './context/ProtectRoute.jsx';
 import Dashboard from './pages/user/Dashboard';
 import Home from './pages/home/Home';
+import { Toaster } from 'react-hot-toast';
+import UserProfile from './pages/user/UserProfile';
 
 const App = () => {
   return (
+    <>
     <Router>
       <Header />
       <Routes>
@@ -17,10 +20,41 @@ const App = () => {
         <Route path="/login" element={<PublicRoute element={<Login />} />} />
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<PublicRoute element={<Register />} />} />
-        <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+        <Route path="/profile" element={<ProtectedRoute element={<Dashboard />} />} />
+        {/* <Route path="/profile" element={<ProtectedRoute element={<UserProfile />} />} /> */}
         <Route path="*" element={<Navigate to="/home" replace />} /> {/* Catch all undefined routes */}
+
+
+
+
       </Routes>
     </Router>
+    <Toaster
+  position="top-center"
+  reverseOrder={false}
+  gutter={8}
+  containerClassName=""
+  containerStyle={{}}
+  toastOptions={{
+    // Define default options
+    className: '',
+    duration: 5000,
+    style: {
+      background: '#363636',
+      color: '#fff',
+    },
+
+    // Default options for specific types
+    success: {
+      duration: 3000,
+      theme: {
+        primary: 'green',
+        secondary: 'black',
+      },
+    },
+  }}
+/>
+    </>
   );
 }
 

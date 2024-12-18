@@ -15,6 +15,8 @@ const authSlice = createSlice({
                 id: action.payload._id, // Save only necessary user data
                 name: action.payload.fullname, // Mask other sensitive information if needed
                 email: action.payload.email, // Mask other sensitive information if needed
+                isAdmin: action.payload.isAdmin, // Mask other sensitive information if needed
+                token: action.payload.token, // Mask other sensitive information if needed
                 username: action.payload.username,
             };
             localStorage.setItem("isLoggedIn", "true");

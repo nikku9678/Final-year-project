@@ -23,11 +23,13 @@ import {
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
+
 // import { MenuButton, MenuItems } from "@headlessui/react";
 // import { Avatar } from "flowbite-react";
-import {useSelector } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 // import { logout} from "../../redux/authSlice.js"; // Adjust import according to your file structure
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../redux/authSlice";
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -48,7 +50,7 @@ function NavListMenu() {
               selected={isMenuOpen || isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
             >
-              Blocks
+              Study Material
               <ChevronDownIcon
                 strokeWidth={2.5}
                 className={`hidden h-3 w-3 transition-transform lg:block ${isMenuOpen ? "rotate-180" : ""}`}
@@ -82,66 +84,75 @@ function NavListMenu() {
 function NavList() {
   return (
     <List className="mb-6 mt-4 p-0 lg:mb-0 lg:mt-0 lg:flex-row lg:p-1">
-      <Typography
-        as="a"
-        href="#"
-        variant="large"
-        color="blue-gray"
-        className="font-medium"
-      >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">Pages</ListItem>
+      {/* Home */}
+      <Typography as="div" variant="large" color="blue-gray" className="font-medium">
+        <Link to="/">
+          <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
+        </Link>
       </Typography>
-      <Typography
-        as="a"
-        href="#"
-        variant="large"
-        color="blue-gray"
-        className="font-medium"
-      >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">
-          Account
-        </ListItem>
+
+      {/* About */}
+      <Typography as="div" variant="large" color="blue-gray" className="font-medium">
+        <Link to="/about">
+          <ListItem className="flex items-center gap-2 py-2 pr-4">About</ListItem>
+        </Link>
       </Typography>
+      <Typography as="div" variant="large" color="blue-gray" className="font-medium">
+        <Link to="/about">
+          <ListItem className="flex items-center gap-2 py-2 pr-4">Contest</ListItem>
+        </Link>
+      </Typography>
+      
+
+      {/* NavListMenu */}
       <NavListMenu />
-      <Typography
-        as="a"
-        href="#"
-        variant="large"
-        color="blue-gray"
-        className="font-medium"
-      >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">Docs</ListItem>
+
+      {/* Docs */}
+      <Typography as="div" variant="large" color="blue-gray" className="font-medium">
+        <Link to="/about">
+          <ListItem className="flex items-center gap-2 py-2 pr-4">Interview</ListItem>
+        </Link>
       </Typography>
     </List>
   );
 }
 
+
+
 const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
+    link: "/profile",
   },
   {
     label: "Edit Profile",
     icon: Cog6ToothIcon,
+    link: "/edit-profile",
   },
   {
     label: "Inbox",
     icon: InboxArrowDownIcon,
+    link: "/inbox",
   },
   {
     label: "Help",
     icon: LifebuoyIcon,
-  },
-  {
-    label: "Sign Out",
-    icon: PowerIcon,
+    link: "/help",
   },
 ];
 
 function ProfileMenu() {
-  const [isMenuOpen,setIsMenuOpen] = React.useState(false);
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   const closeMenu = () => setIsMenuOpen(false);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -151,7 +162,12 @@ function ProfileMenu() {
           color="blue-gray"
           className="flex items-center gap-1 border-2 border-gray-400 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
         >
-          <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80" alt="" width={'30px'} style={{borderRadius:'20px'}} />
+          <img
+            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+            alt=""
+            width={"30px"}
+            style={{ borderRadius: "20px" }}
+          />
           <ChevronDownIcon
             strokeWidth={2.5}
             className={`h-3 w-3 transition-transform ${isMenuOpen ? "rotate-180" : ""}`}
@@ -159,37 +175,41 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
-          const isLastItem = key === profileMenuItems.length - 1;
+        {/* Menu Items */}
+        {profileMenuItems.map(({ label, icon, link }) => {
           return (
-            <MenuItem
-              key={label}
-              onClick={closeMenu}
-              className={`flex items-center gap-2 rounded ${
-                isLastItem
-                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                  : ""
-              }`}
-            >
-              {React.createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                strokeWidth: 2,
-              })}
-              <Typography
-                as="span"
-                variant="small"
-                className="font-normal"
-                color={isLastItem ? "red" : "inherit"}
-              >
-                {label}
-              </Typography>
-            </MenuItem>
+            <Link to={link} key={label} onClick={closeMenu}>
+              <MenuItem className="flex items-center gap-2 rounded hover:bg-gray-100">
+                {React.createElement(icon, {
+                  className: "h-4 w-4",
+                  strokeWidth: 2,
+                })}
+                <Typography as="span" variant="small" className="font-normal">
+                  {label}
+                </Typography>
+              </MenuItem>
+            </Link>
           );
         })}
+
+        {/* Logout Item */}
+        <MenuItem
+          onClick={handleLogout}
+          className="hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10 flex items-center gap-2 p-3 rounded"
+        >
+          {React.createElement(PowerIcon, {
+            className: "h-4 w-4 text-red-500",
+            strokeWidth: 2,
+          })}
+          <Typography as="span" variant="small" className="font-normal text-red-500">
+            Sign Out
+          </Typography>
+        </MenuItem>
       </MenuList>
     </Menu>
   );
 }
+
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn); // Access state from Redux
@@ -208,12 +228,12 @@ export default function Header() {
 
   return (
     <Navbar className="px-2 lg:px-8 max-w-[100%] py-3 rounded-none shadow-none border-b border-gray-500">
-      <div className="mx-4 px-2 flex items-center justify-between text-black ">
+      <div className="ml-3 lg:mx-4 lg:px-2 flex items-center justify-between text-black ">
         {/* Logo */}
         <div>
           <Typography
             as="a"
-            href="#"
+            href="/"
            
             className="mr-4 cursor-pointer py-1.5 text-xl font-bold"
           >
